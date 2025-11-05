@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Letters Across Miles</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Playfair Display', serif;
+            background: linear-gradient(to bottom, #ffe4e1, #faf0e6); /* Soft blush to cream */
+            color: #5a4a42;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 50px 20px;
+        }
+        h1, h2 {
+            font-family: 'Dancing Script', cursive;
+            text-align: center;
+        }
+        h1 { font-size: 3em; margin-bottom: 10px; }
+        h2 { font-size: 2em; margin: 40px 0 20px; }
+        p { font-size: 1.2em; text-align: center; margin: 20px 0; }
+        .letter {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s ease, transform 1s ease;
+            margin-bottom: 100px;
+            position: relative;
+        }
+        .letter.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .envelope {
+            width: 100px;
+            height: 70px;
+            background: #f8f8f8;
+            border: 2px solid #d4a574;
+            margin: 20px auto;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .envelope:hover { transform: scale(1.1); }
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: #d4a574;
+            clip-path: polygon(0 0, 100% 0, 50% 50%);
+        }
+        .letter-text {
+            display: none;
+            margin-top: 20px;
+            font-style: italic;
+        }
+        .hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        .heart {
+            position: absolute;
+            font-size: 2em;
+            animation: float 10s linear infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            100% { transform: translateY(-100px) rotate(360deg); }
+        }
+        button {
+            background: #d4a574;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        button:hover { background: #b8956a; }
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+            color: #8b7d6b;
+        }
+        audio { display: none; } /* Hidden background music */
+    </style>
+</head>
+<body>
+    <audio autoplay loop>
+        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav"> <!-- Placeholder: Replace with your soft piano MP3 URL -->
+    </audio>
+    
+    <div class="hearts">
+        <!-- Floating hearts -->
+        <div class="heart" style="left: 10%; animation-delay: 0s;">💖</div>
+        <div class="heart" style="left: 20%; animation-delay: 2s;">❤️</div>
+        <div class="heart" style="left: 30%; animation-delay: 4s;">💕</div>
+        <div class="heart" style="left: 40%; animation-delay: 6s;">💗</div>
+        <div class="heart" style="left: 50%; animation-delay: 8s;">💓</div>
+    </div>
+
+    <div class="container">
+        <!-- Landing Page -->
+        <section id="landing">
+            <h1>Letters Across Miles</h1>
+            <p>For the one who feels close even when she’s far.</p>
+            <button onclick="scrollToNext()">Start Reading</button>
+        </section>
+
+        <!-- Letter One -->
+        <section class="letter" id="letter1">
+            <h2>The Night I Missed You Most</h2>
+            <div class="envelope" onclick="openLetter('letter1-text')"></div>
+            <div id="letter1-text" class="letter-text">
+                <p>My love, [Her Name], there was a night when the stars seemed dimmer without your laughter echoing in my ears. I missed the warmth of your hand in mine, the way your voice wraps around my soul like a gentle embrace. Even miles apart, you are my everything—my light in the darkest hours.</p>
+            </div>
+        </section>
+
+        <!-- Letter Two -->
+        <section class="letter" id="letter2">
+            <h2>When I Prayed for You</h2>
+            <div class="envelope" onclick="openLetter('letter2-text')"></div>
+            <div id="letter2-text" class="letter-text">
+                <p>Every morning, I whisper thanks to the heavens for blessing me with you, [Her Name]. Your spirit, your kindness, your unwavering love—it's a prayer answered. In this distance, I find faith in us, knowing God's plan brought us together across these miles.</p>
+            </div>
+        </section>
+
+        <!-- Letter Three -->
+        <section class="letter" id="letter3">
+            <h2>The Way Your Name Feels in My Heart</h2>
+            <div class="envelope" onclick="openLetter('letter3-text')"></div>
+            <div id="letter3-text" class="letter-text">
+                <p>[Her Name], your name is poetry on my lips, a melody that plays in my heart like a homecoming. It feels like soft rain on a summer day, like the first bloom of spring—familiar, comforting, eternal. You are my sanctuary, no matter the distance.</p>
+            </div>
+        </section>
+
+        <!-- Letter Four -->
+        <section class="letter" id="letter4">
+            <h2>Our Someday</h2>
+            <div class="envelope" onclick="openLetter('letter4-text')"></div>
+            <div id="letter4-text" class="letter-text">
+                <p>My dearest [Her Name], our someday is a promise I hold close. We'll walk hand in hand through sunlit streets, build a life filled with laughter and dreams. No miles can keep us apart forever—our love will bridge every gap, creating a future as beautiful as you.</p>
+            </div>
+        </section>
+
+        <!-- Final Page -->
+        <section class="letter" id="final">
+            <h2>Happy Birthday, My Love</h2>
+            <p>Even from miles away, my heart always finds you. Happy Birthday, [Her Name].</p>
+            <button onclick="playMessage()">Play My Message</button>
+        </section>
+    </div>
+
+    <footer>Made with love, distance, and a thousand heartbeats.</footer>
+
+    <script>
+        // Scroll animations
+        const letters = document.querySelectorAll('.letter');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        });
+        letters.forEach(letter => observer.observe(letter));
+
+        // Envelope open function
+        function openLetter(id) {
+            const text = document.getElementById(id);
+            text.style.display = text.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Scroll to next section
+        function scrollToNext() {
+            document.getElementById('letter1').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Play message (replace URL)
+        function playMessage() {
+            window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank'); // Placeholder: Replace with your video/voice note URL
+        }
+    </script>
+</body>
+</html>
