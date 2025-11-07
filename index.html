@@ -1,202 +1,315 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Letters Across Miles</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Playfair Display', serif;
-            background: linear-gradient(to bottom, #ffe4e1, #faf0e6); /* Soft blush to cream */
-            color: #5a4a42;
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 50px 20px;
-        }
-        h1, h2 {
-            font-family: 'Dancing Script', cursive;
-            text-align: center;
-        }
-        h1 { font-size: 3em; margin-bottom: 10px; }
-        h2 { font-size: 2em; margin: 40px 0 20px; }
-        p { font-size: 1.2em; text-align: center; margin: 20px 0; }
-        .letter {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: opacity 1s ease, transform 1s ease;
-            margin-bottom: 100px;
-            position: relative;
-        }
-        .letter.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .envelope {
-            width: 100px;
-            height: 70px;
-            background: #f8f8f8;
-            border: 2px solid #d4a574;
-            margin: 20px auto;
-            position: relative;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-        .envelope:hover { transform: scale(1.1); }
-        .envelope::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 50%;
-            background: #d4a574;
-            clip-path: polygon(0 0, 100% 0, 50% 50%);
-        }
-        .letter-text {
-            display: none;
-            margin-top: 20px;
-            font-style: italic;
-        }
-        .hearts {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-        .heart {
-            position: absolute;
-            font-size: 2em;
-            animation: float 10s linear infinite;
-        }
-        @keyframes float {
-            0% { transform: translateY(100vh) rotate(0deg); }
-            100% { transform: translateY(-100px) rotate(360deg); }
-        }
-        button {
-            background: #d4a574;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 1.2em;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background 0.3s;
-        }
-        button:hover { background: #b8956a; }
-        footer {
-            text-align: center;
-            padding: 20px;
-            font-size: 0.9em;
-            color: #8b7d6b;
-        }
-        audio { display: none; } /* Hidden background music */
-    </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>Our Story — Ishita & Sadiq</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg1:#1a001a;
+    --pink:#f9d5d3;
+    --gold:#ffd6a5;
+    --muted: rgba(255,255,255,0.78);
+    --card: rgba(255,255,255,0.03);
+    --radius:14px;
+    --maxw:900px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;font-family:"Playfair Display",serif;background:linear-gradient(180deg,#2a0524 0%, #0b0010 100%);color:#fff;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:var(--maxw);margin:18px auto;padding:18px}
+  header{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:6px}
+  h1{font-family:'Great Vibes',cursive;font-size:44px;margin:6px 0;background:linear-gradient(90deg,var(--pink),var(--gold));-webkit-background-clip:text;color:transparent}
+  .lead{color:var(--muted);max-width:760px;line-height:1.5}
+  nav{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:12px}
+  .nav-btn{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 12px;border-radius:999px;color:var(--muted);cursor:pointer;font-size:14px}
+  main{display:flex;flex-direction:column;gap:18px;margin-top:12px}
+  section.card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:16px;border-radius:var(--radius);backdrop-filter: blur(6px)}
+  .story .intro{font-size:15px;color:var(--muted);line-height:1.7}
+  .poem{margin-top:12px;font-size:15px;line-height:1.7;color:var(--muted);white-space:pre-line}
+  .poem .line{opacity:0;transform:translateY(8px);transition:opacity .6s ease, transform .6s ease}
+  .poem .line.show{opacity:1;transform:translateY(0)}
+  .letters{display:flex;flex-direction:column;gap:12px;margin-top:10px}
+  .letter-card{background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:12px;border-radius:10px;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+  .letter-meta{display:flex;flex-direction:column}
+  .letter-title{font-weight:700}
+  .small{font-size:13px;color:var(--muted)}
+  .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:linear-gradient(rgba(2,6,15,0.75), rgba(2,6,15,0.95));z-index:120;padding:20px}
+  .modal.open{display:flex}
+  .modal-card{background:linear-gradient(180deg,#fffaf6,#fff7ef);color:#111;padding:18px;border-radius:12px;max-width:820px;width:100%;box-shadow:0 18px 40px rgba(0,0,0,0.6);max-height:85vh;overflow:auto}
+  .close{background:transparent;border:0;float:right;font-size:20px;cursor:pointer}
+  .final{padding:24px;text-align:center}
+  .final .line{opacity:0;transform:translateY(6px);transition:opacity .6s, transform .6s;color:var(--pink);font-size:18px}
+  .music-btn{position:fixed;right:16px;bottom:16px;width:56px;height:56px;border-radius:999px;background:linear-gradient(180deg,var(--pink),var(--gold));display:flex;align-items:center;justify-content:center;box-shadow:0 12px 30px rgba(0,0,0,0.35);z-index:200;border:0;cursor:pointer}
+  .music-btn svg{width:24px;height:24px}
+  footer{margin-top:18px;text-align:center;color:var(--muted);font-size:13px}
+  @media(max-width:720px){
+    h1{font-size:36px}
+    .wrap{padding:12px}
+    .modal-card{padding:14px}
+  }
+</style>
 </head>
 <body>
-    <audio autoplay loop>
-        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav"> <!-- Placeholder: Replace with your soft piano MP3 URL -->
-    </audio>
-    
-    <div class="hearts">
-        <!-- Floating hearts -->
-        <div class="heart" style="left: 10%; animation-delay: 0s;">💖</div>
-        <div class="heart" style="left: 20%; animation-delay: 2s;">❤️</div>
-        <div class="heart" style="left: 30%; animation-delay: 4s;">💕</div>
-        <div class="heart" style="left: 40%; animation-delay: 6s;">💗</div>
-        <div class="heart" style="left: 50%; animation-delay: 8s;">💓</div>
-    </div>
+<div class="wrap" id="page">
+  <header>
+    <h1>Our Story — Ishita &amp; Sadiq</h1>
+    <div class="lead">A small, hand-made page for your birthday — letters, memories, and a poem that unfolds line by line. Tap anywhere to start the music.</div>
+    <nav>
+      <button class="nav-btn" data-to="story">Our Story</button>
+      <button class="nav-btn" data-to="letters">Letters</button>
+      <button class="nav-btn" data-to="final">Final</button>
+    </nav>
+  </header>
 
-    <div class="container">
-        <!-- Landing Page -->
-        <section id="landing">
-            <h1>Letters Across Miles</h1>
-            <p>For the one who feels close even when she’s far.</p>
-            <button onclick="scrollToNext()">Start Reading</button>
-        </section>
+  <main>
+    <!-- Story -->
+    <section id="story" class="card story" aria-labelledby="storyTitle">
+      <h2 id="storyTitle">Our Beginning</h2>
+      <div class="intro">
+        <div>Do you remember? It all began on <strong>24th March</strong> — you followed me, I followed you back, I texted first… and you left me on seen 😅 Then I said “tell something,” you said “abcd,” I replied “efgh” 🤭 — and just like that, a small spark turned into the most beautiful story of us.</div>
 
-        <!-- Letter One -->
-        <section class="letter" id="letter1">
-            <h2>The Night I Missed You Most</h2>
-            <div class="envelope" onclick="openLetter('letter1-text')"></div>
-            <div id="letter1-text" class="letter-text">
-                <p>My love, [Her Name], there was a night when the stars seemed dimmer without your laughter echoing in my ears. I missed the warmth of your hand in mine, the way your voice wraps around my soul like a gentle embrace. Even miles apart, you are my everything—my light in the darkest hours.</p>
-            </div>
-        </section>
+        <div style="margin-top:10px;color:var(--muted)">From that day till this very moment, it’s been a long, happy, unforgettable journey — <strong>595 days</strong> filled with laughter, love, and countless memories. Every moment, from our craziest laughs to our quiet conversations, has found a home in my heart.</div>
 
-        <!-- Letter Two -->
-        <section class="letter" id="letter2">
-            <h2>When I Prayed for You</h2>
-            <div class="envelope" onclick="openLetter('letter2-text')"></div>
-            <div id="letter2-text" class="letter-text">
-                <p>Every morning, I whisper thanks to the heavens for blessing me with you, sadiq. Your spirit, your kindness, your unwavering love—it's a prayer answered. In this distance, I find faith in us, knowing God's plan brought us together across these miles.</p>
-            </div>
-        </section>
+        <div style="margin-top:10px;color:var(--muted)">Yes, there were days we’d rather forget, but even those made our bond stronger. Every second of this journey has been precious — a piece of my soul that I’ll cherish forever, in this world and beyond.</div>
 
-        <!-- Letter Three -->
-        <section class="letter" id="letter3">
-            <h2>The Way Your Name Feels in My Heart</h2>
-            <div class="envelope" onclick="openLetter('letter3-text')"></div>
-            <div id="letter3-text" class="letter-text">
-                <p>[Her Name], your name is poetry on my lips, a melody that plays in my heart like a homecoming. It feels like soft rain on a summer day, like the first bloom of spring—familiar, comforting, eternal. You are my sanctuary, no matter the distance.</p>
-            </div>
-        </section>
+        <div class="poem" id="poem">
+Tu kitni khubsurat hai,
+Fida hoon main tere har deedaar par.
+Har nazar tere pa ruk jaati hai,
+Yeh kamaal hai is duniya ka?
+Ya phir kamaal hai Khuda ka?
+Taras gaya hoon teri ek jhalak ke liye,
+Gussa hai mujh par khud Khuda bhi shayad,
+Us din zara aur dekhta a noor tera,
+Woh bhi ek kamaal hota is judai ka!
+Har pal teri yaadon mein doob jaata hoon,
+Bas sochta hoon kya yeh faasla hai
+Ya dilon ki kareebi ka saboot?
+Teri ek jhalak dekh loon,
+To na kuch aur chahiye,
+Na dua, na khushi sirf tu, bas tu.
+Kya yeh kamaal hai is duri ka,
+Ya kamaal hai hamare pyaar ka?
+Roz roz tarasta hoon usi ek nazar ko,
+Khuda kare aisa ho jaye,
+Ke teri woh jhalak kabhi na hataa
+Meri in aankhon se.
+Yeh kamaal hai is intezaar ka?
+Ya phir woh mohabat ka silsila
+Jo har saans mein bas tujh tak jaata hai
+        </div>
 
-        <!-- Letter Four -->
-        <section class="letter" id="letter4">
-            <h2>Our Someday</h2>
-            <div class="envelope" onclick="openLetter('letter4-text')"></div>
-            <div id="letter4-text" class="letter-text">
-                <p>My dearest [Her Name], our someday is a promise I hold close. We'll walk hand in hand through sunlit streets, build a life filled with laughter and dreams. No miles can keep us apart forever—our love will bridge every gap, creating a future as beautiful as you.</p>
-            </div>
-        </section>
+      </div>
+    </section>
 
-        <!-- Final Page -->
-        <section class="letter" id="final">
-            <h2>Happy Birthday, My Love</h2>
-            <p>Even from miles away, my heart always finds you. Happy Birthday, [Her Name].</p>
-            <button onclick="playMessage()">Play My Message</button>
-        </section>
-    </div>
+    <!-- Letters -->
+    <section id="letters" class="card" aria-labelledby="lettersTitle">
+      <h2 id="lettersTitle">Letters Across Miles</h2>
 
-    <footer>Made with love, distance, and a thousand heartbeats.</footer>
+      <div class="letters" id="lettersList">
+        <!-- JS injects letter cards -->
+      </div>
+    </section>
 
-    <script>
-        // Scroll animations
-        const letters = document.querySelectorAll('.letter');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        });
-        letters.forEach(letter => observer.observe(letter));
+    <!-- Final / Closing -->
+    <section id="final" class="card final" aria-labelledby="finalTitle">
+      <h2 id="finalTitle">Forever Words</h2>
+      <div class="line" id="finalLine1">Every heartbeat spells your name, Ishita.</div>
+      <div class="line" id="finalLine2">I love you, mamma — always and forever.</div>
+      <div style="margin-top:14px;color:var(--muted);font-size:15px;white-space:pre-line" id="closingMessage"></div>
+    </section>
 
-        // Envelope open function
-        function openLetter(id) {
-            const text = document.getElementById(id);
-            text.style.display = text.style.display === 'block' ? 'none' : 'block';
-        }
+  </main>
 
-        // Scroll to next section
-        function scrollToNext() {
-            document.getElementById('letter1').scrollIntoView({ behavior: 'smooth' });
-        }
+  <footer>Made with all my love — <strong>Sadiq</strong> 💞</footer>
+</div>
 
-        // Play message (replace URL)
-        function playMessage() {
-            window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank'); // Placeholder: Replace with your video/voice note URL
-        }
-    </script>
+<!-- Modal -->
+<div class="modal" id="modal" aria-hidden="true">
+  <div class="modal-card" role="dialog" aria-modal="true">
+    <button class="close" id="modalClose">✕</button>
+    <h3 id="modalTitle"></h3>
+    <div id="modalBody" style="white-space:pre-line;margin-top:8px"></div>
+  </div>
+</div>
+
+<!-- music control -->
+<button class="music-btn" id="musicBtn" aria-label="Play music" title="Play music">
+  <svg viewBox="0 0 24 24" fill="none" stroke="#5b0710" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon id="playIcon" points="5 3 19 12 5 21 5 3"></polygon><rect id="pauseIcon" x="6" y="4" width="4" height="16" style="display:none"/><rect id="pauseIcon2" x="14" y="4" width="4" height="16" style="display:none"/></svg>
+</button>
+
+<script>
+/* ===== DATA (letters & final message) ===== */
+const DATA = {
+  letters: [
+    {
+      id: 'L1',
+      title: 'When I Miss You Most',
+      date: 'The quiet night I couldn’t sleep without your voice.',
+      body: `There is no fixed time when I miss you — I miss you every day, every moment, waiting for the day when there’ll be no more distance between us... only you and meee.
+“Hum tum kitne paas hain, kitne duur hain chaand sitaare...” 🌙
+Missing you isn’t just an ache — it’s a reminder that my heart found its home in you. And even distance, no matter how long or wide, can never dim the warmth you left inside me.`
+    },
+    {
+      id: 'L2',
+      title: 'The Day You Became My Home',
+      date: '',
+      body: `You didn’t arrive in my life with fireworks — you came like soft sunlight after endless rain.
+I didn’t even realize when I stopped searching for comfort outside, because you became it.
+Your laughter, your words, your talks, your presence, your love, your care — you, you, and youuu — are peace for me.
+“Tu mujhko yun mila hai, jaise banjaare ko ghar...” 🕊️
+You mean everything to me, jaan… everything 🤗`
+    },
+    {
+      id: 'L3',
+      title: '595 Days of Us',
+      date: 'From 24th March till this very moment.',
+      body: `From “abcd” and “efgh” to endless stories, we’ve written a love I never imagined I’d live.
+595 days — a mosaic of laughter, tiny surprises, sleepless talks, and a thousand small miracles.
+Some days were wild, some soft, some broken — but all of them were ours.
+And I wouldn’t trade a single second.
+“Ab tum hi ho zindagi, ab tum hi ho chain bhi,
+Mera dard bhi, meri aashiqui — ab tum hi ho.” 💞
+You’ve become my most beautiful habit, my longest prayer, my favorite memory.`
+    },
+    {
+      id: 'GOLD',
+      title: 'Your Birthday Letter — The Golden Envelope ✨',
+      date: 'The day my world was born — your day.',
+      body: `Happy Birthday, my love.
+This is your second birthday with me, and I want every one after this to be ours — together, forever.
+You are the warmth behind every word I write, the smile behind every sigh, the peace I never thought I’d find.
+May your heart always stay as soft, pure, and radiant as the first day I met you.
+I promise to love you louder each year, softer in every moment, and deeper than time can measure.
+You are — and will always be — my favorite forever. ❤️`,
+      golden: true
+    }
+  ],
+  finalMessage: `Jaan goo always happy thako akdam noo sadd bujlee mammmaa. Jibone onek onak onak moja koro mammmaa. Tumi jaa chaoo god jano tomake seta ddaii jaan 🤗🤗🤗. Tumi sob somoy sabdhana a theko. I wish bestest health for you jaan.
+I love you jaan 
+I love you 
+I love you sooo much mamma 
+Ar 🤭🤭 
+Happy Birthday januu 😚😚😚😚😚
+Sorry goo jaan basi Kichu korte parchi na akhon aii chara ar kichu bhul hola ba komi lagle bolbe mammmaa🤭. Ar tomar akhono gift bakii ache mammmaa 😁😁😁 dekha hok then baki gift mammmaa`
+};
+
+/* ===== DOM helpers ===== */
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+
+/* ===== Nav buttons ===== */
+$$('.nav-btn').forEach(b => b.addEventListener('click', () => {
+  const id = b.getAttribute('data-to');
+  document.getElementById(id).scrollIntoView({behavior:'smooth', block:'start'});
+}));
+
+/* ===== Populate Letters ===== */
+const lettersList = $('#lettersList');
+DATA.letters.forEach(l => {
+  const div = document.createElement('div');
+  div.className = 'letter-card' + (l.golden? ' gold':'');
+  div.innerHTML = `<div class="letter-meta"><div class="letter-title">${l.title}</div><div class="small">${l.date}</div></div><div>✉️</div>`;
+  div.addEventListener('click', () => openModal(l));
+  lettersList.appendChild(div);
+});
+
+/* ===== Modal handling ===== */
+const modal = $('#modal'), modalTitle = $('#modalTitle'), modalBody = $('#modalBody'), modalClose = $('#modalClose');
+function openModal(letter){
+  modalTitle.textContent = letter.title;
+  modalBody.textContent = letter.body;
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden','false');
+}
+modalClose.addEventListener('click', closeModal);
+modal.addEventListener('click', (e)=> { if(e.target === modal) closeModal(); });
+function closeModal(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); }
+
+/* ===== Poem line reveal ===== */
+(function revealPoem(){
+  const poemEl = $('#poem');
+  if(!poemEl) return;
+  const raw = poemEl.textContent.trim();
+  poemEl.textContent = '';
+  const lines = raw.split(/\n+/).map(s=>s.trim()).filter(Boolean);
+  lines.forEach((ln,i)=>{
+    const d = document.createElement('div');
+    d.className='line';
+    d.textContent = ln;
+    poemEl.appendChild(d);
+    setTimeout(()=> d.classList.add('show'), 900 + i*420);
+  });
+})();
+
+/* ===== Final message reveal ===== */
+(function revealFinal(){
+  $('#closingMessage').textContent = '';
+  const lines = DATA.finalMessage.split('\n');
+  let i=0;
+  setTimeout(function step(){
+    if(i>=lines.length) return;
+    $('#closingMessage').textContent += (i? '\n':'') + lines[i];
+    i++; setTimeout(step, 700);
+  }, 700);
+  setTimeout(()=> { $('#finalLine1').classList.add('show'); setTimeout(()=> $('#finalLine2').classList.add('show'), 700); }, 1400);
+})();
+
+/* ===== Background music (streamed mp3) ===== */
+const musicUrl = "https://cdn.pixabay.com/download/audio/2022/03/15/audio_3a6b3c0731.mp3?filename=soft-piano-romance.mp3"; // streaming MP3
+let audioCtx, bgGain, isPlaying=false;
+const musicBtn = $('#musicBtn');
+const playIcon = $('#playIcon'), pauseIcon = $('#pauseIcon'), pauseIcon2 = $('#pauseIcon2');
+
+async function initAudio(){
+  if(audioCtx) return;
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  bgGain = audioCtx.createGain(); bgGain.gain.value = 0.0; bgGain.connect(audioCtx.destination);
+  // fetch and decode a small streaming-friendly buffer via XHR then loop using AudioBufferSourceNode
+  try{
+    const resp = await fetch(musicUrl);
+    const ab = await resp.arrayBuffer();
+    const buf = await audioCtx.decodeAudioData(ab);
+    const source = audioCtx.createBufferSource();
+    source.buffer = buf;
+    source.loop = true;
+    source.connect(bgGain);
+    source.start();
+    // fade in
+    bgGain.gain.linearRampToValueAtTime(0.0001, audioCtx.currentTime);
+    bgGain.gain.linearRampToValueAtTime(0.08, audioCtx.currentTime + 1.8);
+    isPlaying = true;
+    playIcon.style.display='none'; pauseIcon.style.display='inline'; pauseIcon2.style.display='inline';
+  }catch(err){
+    console.warn('Audio init failed:', err);
+  }
+}
+
+// Try to start on first user gesture
+document.body.addEventListener('click', async function startMusicOnce(){
+  document.body.removeEventListener('click', startMusicOnce);
+  try{ await initAudio(); }catch(e){}
+});
+
+// music button toggle
+musicBtn.addEventListener('click', async ()=>{
+  if(!audioCtx){ try { await initAudio(); } catch(e){} return; }
+  if(audioCtx.state === 'suspended') await audioCtx.resume();
+  if(isPlaying){ audioCtx.suspend(); isPlaying=false; playIcon.style.display='inline'; pauseIcon.style.display='none'; pauseIcon2.style.display='none'; }
+  else{ await audioCtx.resume(); isPlaying=true; playIcon.style.display='none'; pauseIcon.style.display='inline'; pauseIcon2.style.display='inline'; }
+});
+
+/* ===== Accessibility: keyboard close modal & focus trap hint ===== */
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+});
+
+/* ===== Small polish: staggered intro for story paragraphs ===== */
+document.querySelectorAll('.story .intro > div').forEach((el,i)=> setTimeout(()=> el.style.opacity=1, 200 + i*260));
+
+</script>
 </body>
 </html>
